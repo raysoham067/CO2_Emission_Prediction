@@ -213,8 +213,8 @@ export FLASK_DEBUG=0
 ```
 
 ## 📊 Performance Results
+<img width="1616" height="886" alt="Screenshot 2025-08-28 230442" src="https://github.com/user-attachments/assets/9a5b5b6c-d4e7-458b-b934-2e9ae9fec65d" />
 
-<img width="1642" height="893" alt="image" src="https://github.com/user-attachments/assets/d44b0584-69d1-4fbc-9608-0045dce933d3" />
 
 
 
