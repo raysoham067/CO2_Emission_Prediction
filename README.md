@@ -214,6 +214,12 @@ export FLASK_DEBUG=0
 
 ## 📊 Performance Results
 
+<img width="1642" height="893" alt="image" src="https://github.com/user-attachments/assets/d44b0584-69d1-4fbc-9608-0045dce933d3" />
+
+
+
+
+
 ### Model Comparison
 | Model | R² Score | RMSE | MAE | CV Score |
 |-------|----------|------|-----|----------|
@@ -256,7 +262,7 @@ export FLASK_DEBUG=0
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License .
 
 ## 🙏 Acknowledgments
 
