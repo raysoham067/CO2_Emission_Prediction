@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO2 Emission Prediction Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .prediction-card {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+        }
+        .prediction-value {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .prediction-unit {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+        .model-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .input-summary {
+            background: #e8f4fd;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .input-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .input-item:last-child {
+            border-bottom: none;
+        }
+        .input-label {
+            font-weight: 600;
+            color: #34495e;
+        }
+        .input-value {
+            color: #667eea;
+            font-weight: 600;
+        }
+        .btn-back {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        .impact-indicator {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .impact-low {
+            background: #d4edda;
+            color: #155724;
+        }
+        .impact-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .impact-high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .comparison-chart {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .chart-bar {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            height: 30px;
+            border-radius: 15px;
+            margin: 0.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .chart-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-container">
+            <div class="header">
+                <h1><i class="fas fa-chart-line text-success me-2"></i>Prediction Results</h1>
+                <p>Your vehicle's CO2 emission prediction using {{ model_name }}</p>
+            </div>
+
+            <div class="prediction-card">
+                <div class="prediction-value">{{ prediction }}</div>
+                <div class="prediction-unit">g/km CO2</div>
+                {% if prediction < 100 %}
+                    <div class="impact-indicator impact-low">
+                        <i class="fas fa-leaf me-2"></i>Low Environmental Impact
+                    </div>
+                {% elif prediction < 150 %}
+                    <div class="impact-indicator impact-medium">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Medium Environmental Impact
+                    </div>
+                {% else %}
+                    <div class="impact-indicator impact-high">
+                        <i class="fas fa-exclamation-circle me-2"></i>High Environmental Impact
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="model-info">
+                        <h5><i class="fas fa-brain me-2"></i>Model Information</h5>
+                        <p><strong>Algorithm:</strong> {{ model_name }}</p>
+                        <p><strong>Prediction Confidence:</strong> High</p>
+                        <p><strong>Model Type:</strong> 
+                            {% if 'Linear' in model_name %}
+                                Regression-based
+                            {% elif 'Random' in model_name %}
+                                Ensemble-based
+                            {% else %}
+                                Machine Learning
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="comparison-chart">
+                        <h6><i class="fas fa-chart-bar me-2"></i>Emission Comparison</h6>
+                        <div class="chart-label">
+                            <span>Your Vehicle</span>
+                            <span>{{ prediction }} g/km</span>
+                        </div>
+                        <div class="chart-bar" style="width: {{ (prediction / 200) * 100 }}%"></div>
+                        
+                        <div class="chart-label">
+                            <span>Average Vehicle</span>
+                            <span>120 g/km</span>
+                        </div>
+                        <div class="chart-bar" style="width: 60%"></div>
+                        
+                        <div class="chart-label">
+                            <span>Eco-Friendly</span>
+                            <span>80 g/km</span>
+                        </div>
+                        <div class="chart-bar" style="width: 40%"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-summary">
+                        <h5><i class="fas fa-cogs me-2"></i>Input Parameters</h5>
+                        {% for label, value in input_data.items() %}
+                        <div class="input-item">
+                            <span class="input-label">{{ label }}</span>
+                            <span class="input-value">{{ value }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="model-info">
+                        <h6><i class="fas fa-lightbulb me-2"></i>Recommendations</h6>
+                        {% if prediction < 100 %}
+                            <p class="text-success">Excellent! Your vehicle has low CO2 emissions.</p>
+                        {% elif prediction < 150 %}
+                            <p class="text-warning">Consider more fuel-efficient driving habits.</p>
+                        {% else %}
+                            <p class="text-danger">Consider upgrading to a more fuel-efficient vehicle.</p>
+                        {% endif %}
+                        
+                        <ul class="mt-2">
+                            <li>Maintain proper tire pressure</li>
+                            <li>Drive smoothly and avoid rapid acceleration</li>
+                            <li>Regular vehicle maintenance</li>
+                            <li>Consider carpooling when possible</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="/" class="btn-back">
+                    <i class="fas fa-arrow-left me-2"></i>Make Another Prediction
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate the prediction value
+            const predictionValue = document.querySelector('.prediction-value');
+            predictionValue.style.opacity = '0';
+            predictionValue.style.transform = 'scale(0.5)';
+            
+            setTimeout(() => {
+                predictionValue.style.transition = 'all 0.8s ease';
+                predictionValue.style.opacity = '1';
+                predictionValue.style.transform = 'scale(1)';
+            }, 300);
+
+            // Add hover effects to chart bars
+            document.querySelectorAll('.chart-bar').forEach(bar => {
+                bar.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scaleX(1.05)';
+                });
+                bar.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scaleX(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
